@@ -1,0 +1,42 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@inject HttpClient MyApi
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, Starter! </h1>
+
+@if (!_isDbOn)
+{
+    <button class="btn btn-primary" @onclick="PrepareDb"> Create DB </button>
+}
+else
+{
+    <button class="btn btn-primary" @onclick="PrepareDb"> Delete DB </button>
+}
+
+@code {
+    private bool _isDbOn;
+    protected override async Task OnInitializedAsync()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, "/api/db/check");
+        _isDbOn = (await MyApi.SendAsync(request)).IsSuccessStatusCode;
+    }
+
+    private async Task PrepareDb()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, "/api/db/delete");
+
+        if (!_isDbOn)
+        {
+            request = new HttpRequestMessage(HttpMethod.Get, "/api/db/create");
+        }
+
+        await MyApi.SendAsync(request);
+
+        request = new HttpRequestMessage(HttpMethod.Get, "/api/db/check");
+
+        _isDbOn = (await MyApi.SendAsync(request)).IsSuccessStatusCode;
+
+    }
+}
