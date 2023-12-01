@@ -43,8 +43,6 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-app.MapGet("/api", () => Results.Ok(new { Message = "Hello from the API!" }));
-
 app.MapGet("/api/db/create", async (AppDbContext dbContext) =>
 {
     await dbContext.Database.EnsureCreatedAsync();
