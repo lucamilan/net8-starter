@@ -4,6 +4,8 @@ Just a sample
 
 ## Docker NET8 Chiseled image
 
+Non root user and very small.
+
 mcr.microsoft.com/dotnet/aspnet:8.0-jammy-chiseled
 
 ## Before
